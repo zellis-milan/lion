@@ -404,12 +404,16 @@ export class LionCalendar extends LocalizeMixin(LitElement) {
   __renderMonthNavigation(month, year) {
     const nextMonth =
       this.centralDate.getMonth() === 11
-        ? getMonthNames({ locale: this.__getLocale() })[0]
-        : getMonthNames({ locale: this.__getLocale() })[this.centralDate.getMonth() + 1];
+        ? getMonthNames({ locale: this.__getLocale(), style: 'short' })[0]
+        : getMonthNames({ locale: this.__getLocale(), style: 'short' })[
+            this.centralDate.getMonth() + 1
+          ];
     const previousMonth =
       this.centralDate.getMonth() === 0
-        ? getMonthNames({ locale: this.__getLocale() })[11]
-        : getMonthNames({ locale: this.__getLocale() })[this.centralDate.getMonth() - 1];
+        ? getMonthNames({ locale: this.__getLocale(), style: 'short' })[11]
+        : getMonthNames({ locale: this.__getLocale(), style: 'short' })[
+            this.centralDate.getMonth() - 1
+          ];
     const nextYear = this.centralDate.getMonth() === 11 ? year + 1 : year;
     const previousYear = this.centralDate.getMonth() === 0 ? year - 1 : year;
     return html`
@@ -443,11 +447,13 @@ export class LionCalendar extends LocalizeMixin(LitElement) {
    * @private
    */
   __renderNavigation() {
-    const month = getMonthNames({ locale: this.__getLocale() })[this.centralDate.getMonth()];
+    const month = getMonthNames({ locale: this.__getLocale(), style: 'short' })[
+      this.centralDate.getMonth()
+    ];
     const year = this.centralDate.getFullYear();
     return html`
       <div class="calendar__navigation">
-        ${this.__renderYearNavigation(month, year)} ${this.__renderMonthNavigation(month, year)}
+        ${this.__renderMonthNavigation(month, year)} ${this.__renderYearNavigation(month, year)}
       </div>
     `;
   }
@@ -555,7 +561,18 @@ export class LionCalendar extends LocalizeMixin(LitElement) {
 
   // eslint-disable-next-line class-methods-use-this
   _previousIconTemplate() {
-    return html`&lt;`;
+    return html`<svg
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.70492 1.41L6.29492 0L0.294922 6L6.29492 12L7.70492 10.59L3.12492 6L7.70492 1.41Z"
+        fill="currentColor"
+      />
+    </svg> `;
   }
 
   /**
@@ -591,7 +608,18 @@ export class LionCalendar extends LocalizeMixin(LitElement) {
 
   // eslint-disable-next-line class-methods-use-this
   _nextIconTemplate() {
-    return html`&gt;`;
+    return html`<svg
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.70492 0L0.294922 1.41L4.87492 6L0.294922 10.59L1.70492 12L7.70492 6L1.70492 0Z"
+        fill="currentColor"
+      />
+    </svg> `;
   }
 
   /**

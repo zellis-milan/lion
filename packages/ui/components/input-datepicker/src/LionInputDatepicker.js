@@ -37,9 +37,16 @@ export class LionInputDatepicker extends ScopedElementsMixin(
     return [
       ...super.styles,
       css`
+        .noto-sans-400 {
+          font-family: 'Noto Sans', sans-serif;
+          font-optical-sizing: auto;
+          font-weight: 400;
+          font-style: normal;
+          font-variation-settings: 'wdth' 100;
+        }
+
         .calendar__overlay-frame {
           display: inline-block;
-          background: white;
           position: relative;
         }
 
@@ -62,6 +69,24 @@ export class LionInputDatepicker extends ScopedElementsMixin(
           border-width: 0;
           padding: 0;
           font-size: 24px;
+        }
+        .calendar-overlay__footer {
+          display: flex;
+          justify-content: flex-end;
+          padding: 12px 16px;
+          background-color: #ebebeb;
+          border-radius: 0 0 16px 16px;
+        }
+
+        .calendar-overlay__cancel-button {
+          background: transparent;
+          border: 0;
+          padding: 6px 12px;
+          cursor: pointer;
+          font: inherit;
+          font-size: 14px;
+          line-height: 20px;
+          color: #3b608f;
         }
       `,
     ];
@@ -212,24 +237,27 @@ export class LionInputDatepicker extends ScopedElementsMixin(
 
   _overlayFrameTemplate() {
     return html`
-      <div class="calendar__overlay-frame">
+      <div class="calendar__overlay-frame noto-sans-400">
         <div class="calendar-overlay">
-          <div class="calendar-overlay__header">
-            <h1 class="calendar-overlay__heading">${this.calendarHeading}</h1>
-            <button
-              @click="${() => this._overlayCtrl.hide()}"
-              id="close-button"
-              title="${this.msgLit('lion-input-datepicker:close')}"
-              aria-label="${this.msgLit('lion-input-datepicker:close')}"
-              class="calendar-overlay__close-button"
-            >
-              <slot name="close-icon">&times;</slot>
+          <div>${this._calendarTemplate()}</div>
+          <div class="calendar-overlay__footer">
+            <button class="calendar-overlay__cancel-button" @click="${this._onCancelClick}">
+              Cancel
             </button>
           </div>
-          <div>${this._calendarTemplate()}</div>
         </div>
       </div>
     `;
+  }
+
+  _onCancelClick() {
+    this._overlayCtrl.hide();
+    this.dispatchEvent(
+      new CustomEvent('calendar-cancelled', {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
@@ -287,7 +315,20 @@ export class LionInputDatepicker extends ScopedElementsMixin(
    */
   // eslint-disable-next-line class-methods-use-this
   _invokerIconTemplate() {
-    return html`📅`;
+    return html`<svg
+      width="18"
+      height="20"
+      viewBox="0 0 18 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M16 2H15V0H13V2H5V0H3V2H2C0.89 2 0 2.9 0 4V18C0 19.1 0.89 20 2 20H16C17.1 20 18 19.1 18 18V4C18 2.9 17.1 2 16 2ZM16 18H2V7H16V18ZM3.5 11C3.5 9.62 4.62 8.5 6 8.5C7.38 8.5 8.5 9.62 8.5 11C8.5 12.38 7.38 13.5 6 13.5C4.62 13.5 3.5 12.38 3.5 11Z"
+        fill="#43474E"
+      />
+    </svg> `;
   }
 
   _setupOverlayCtrl() {

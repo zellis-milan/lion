@@ -18,6 +18,15 @@ export class IsDate extends Validator {
   }
 
   /**
+   * @param {{ fieldName?: string}} params
+   */
+  static async getMessage({ fieldName } = {}) {
+    // fieldName is usually the label of your field
+    return `${fieldName || 'Date'} must be a valid date.`;
+    // Or customize as you like!
+  }
+
+  /**
    * @param {?} value
    */
   // eslint-disable-next-line class-methods-use-this

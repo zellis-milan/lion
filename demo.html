@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom Lion Datepicker Demo</title>
+  <script type="module" src="./dist/lion-datepicker-bundle.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+    /* Style the wrapper */
+    lion-input-datepicker.form-field {
+      display: block;
+      border: 2px solid #2c5a91;
+      /* blue border */
+      border-radius: 8px;
+      padding: 10px 12px;
+      position: relative;
+      font-family: Arial, sans-serif;
+      background-color: var(--themeCardBackground);
+    }
+
+    /* Label on top with underline */
+    lion-input-datepicker.form-field>label {
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      background-color: var(--themeCardBackground);
+      padding: 0 4px;
+      color: #2c5a91;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Input styling */
+    lion-input-datepicker .form-control {
+      font-size: 24px;
+      font-weight: 500;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding-right: 40px;
+      /* space for calendar icon */
+      font-family: Noto Sans;
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+
+    }
+
+    /* Calendar button inside gray circle */
+    lion-input-datepicker [slot="suffix"] {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #e6e6e6 !important;
+        border-radius: 50% !important;
+        width: 40px;
+        height: 40px;
+        border: none !important;
+        font-size: 20px;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer !important;
+    }
+
+    /* Remove native button focus */
+    lion-input-datepicker [slot="suffix"]:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Demo: My Custom Lion Datepicker</h2>
+  <lion-input-datepicker label="Date" id="myDatepicker"></lion-input-datepicker>
+
+  <script type="module">
+    // Wait for the DOM to be ready
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Import the validator
+      const { MinMaxDate } = await import('./dist/lion-datepicker-date-validators.js');
+      // Get the datepicker element
+      const dp = document.getElementById('myDatepicker');
+      // Set up validators
+      const min = new Date('2025-06-01');
+      const max = new Date('2025-09-10');
+      dp.validators = [
+        new MinMaxDate({ min, max }, {
+          getMessage: async () => 'Pick a date in the allowed range!'
+        })
+      ];
+      dp.modelValue = new Date('2025-07-30');
+    });
+  </script>
+</body>
+
+</html>
