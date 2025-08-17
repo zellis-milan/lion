@@ -34,6 +34,7 @@ export const ArrowMixinImplementation = superclass =>
           :host {
             --tooltip-arrow-width: 12px;
             --tooltip-arrow-height: 8px;
+            --tooltip-arrow-color: #ebebeb;
           }
 
           .arrow svg {
@@ -50,6 +51,10 @@ export const ArrowMixinImplementation = superclass =>
             display: block;
           }
 
+          .arrow__graphic path {
+            fill: var(--tooltip-arrow-color);
+          }
+
           [data-popper-placement^='top'] .arrow {
             bottom: calc(-1 * var(--tooltip-arrow-height));
           }
@@ -64,8 +69,11 @@ export const ArrowMixinImplementation = superclass =>
 
           [data-popper-placement^='left'] .arrow {
             right: calc(
-              -1 * (var(--tooltip-arrow-height) +
-                    (var(--tooltip-arrow-width) - var(--tooltip-arrow-height)) / 2)
+              -1 *
+                (
+                  var(--tooltip-arrow-height) +
+                    (var(--tooltip-arrow-width) - var(--tooltip-arrow-height)) / 2
+                )
             );
           }
 
@@ -75,8 +83,11 @@ export const ArrowMixinImplementation = superclass =>
 
           [data-popper-placement^='right'] .arrow {
             left: calc(
-              -1 * (var(--tooltip-arrow-height) +
-                    (var(--tooltip-arrow-width) - var(--tooltip-arrow-height)) / 2)
+              -1 *
+                (
+                  var(--tooltip-arrow-height) +
+                    (var(--tooltip-arrow-width) - var(--tooltip-arrow-height)) / 2
+                )
             );
           }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 
 <head>
   <meta charset="UTF-8" />
@@ -79,7 +79,7 @@
 </head>
 
 <body>
-  <h2>Demo: My Custom Lion Datepicker</h2>
+  <h2>Demo: My Custom Lion Datepicker ggg</h2>
   <lion-input-datepicker label="Date" id="myDatepicker"></lion-input-datepicker>
 
   <script type="module">
@@ -92,12 +92,20 @@
       // Set up validators
       const min = new Date('2025-06-01');
       const max = new Date('2025-09-10');
+      dp.locale = 'en-US';
+      dp.helperText="helper test";
+
       dp.validators = [
         new MinMaxDate({ min, max }, {
           getMessage: async () => 'Pick a date in the allowed range!'
         })
       ];
-      dp.modelValue = new Date('2025-07-30');
+      setTimeout(() => {
+        dp.modelValue = new Date('2025-07-30');
+        setTimeout(() => {
+          console.log('Formatted value:', dp.formattedValue, 'Input value:', dp.value, 'Model value:', dp.modelValue);
+        }, 500);
+      }, 200);
     });
   </script>
 </body>

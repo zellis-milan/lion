@@ -124,13 +124,18 @@ export class LionInputDatepicker extends ScopedElementsMixin(
         attribute: false,
         type: Array,
       },
+      locale: { type: String, reflect: true },
     };
   }
 
   get slots() {
     return {
       ...super.slots,
-      [this._calendarInvokerSlot]: () => this._invokerTemplate(),
+      // ⬇️ Make slot content re-render when the host re-renders
+      [this._calendarInvokerSlot]: () => ({
+        template: this._invokerTemplate(),
+        // firstRenderOnConnected: true, // (optional) only if you need it very early
+      }),
     };
   }
 
@@ -155,13 +160,26 @@ export class LionInputDatepicker extends ScopedElementsMixin(
     );
   }
 
+  /**
+   * @type {boolean}
+   * @protected
+   */
+  get __hasError() {
+    /** @type {string[]|undefined} */
+    const s = this.showsFeedbackFor;
+    if (s?.includes('error')) return true;
+
+    // reflected attribute fallback (when showsFeedbackFor hasn’t hydrated yet)
+    const reflected = this.getAttribute('shows-feedback-for') || '';
+    return /\berror\b/.test(reflected);
+  }
+
   constructor() {
     super();
     /** @private */
     this.__invokerId = uuid(this.localName);
     /** @protected */
     this._calendarInvokerSlot = 'suffix';
-
     // Configuration flags for subclassers
     /** @protected */
     this._focusCentralDateOnCalendarOpen = true;
@@ -315,20 +333,14 @@ export class LionInputDatepicker extends ScopedElementsMixin(
    */
   // eslint-disable-next-line class-methods-use-this
   _invokerIconTemplate() {
-    return html`<svg
-      width="18"
-      height="20"
-      viewBox="0 0 18 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M16 2H15V0H13V2H5V0H3V2H2C0.89 2 0 2.9 0 4V18C0 19.1 0.89 20 2 20H16C17.1 20 18 19.1 18 18V4C18 2.9 17.1 2 16 2ZM16 18H2V7H16V18ZM3.5 11C3.5 9.62 4.62 8.5 6 8.5C7.38 8.5 8.5 9.62 8.5 11C8.5 12.38 7.38 13.5 6 13.5C4.62 13.5 3.5 12.38 3.5 11Z"
-        fill="#43474E"
-      />
-    </svg> `;
+    if (this.disabled || this.readOnly) {
+      return html`<i class="fa-regular fa-circle-xmark"></i>`;
+    }
+    if (this.__hasError) {
+      return html`<i class="fa-solid fa-circle-exclamation"></i>`;
+    }
+
+    return html`<i class="fa-regular fa-calendar"></i>`;
   }
 
   _setupOverlayCtrl() {

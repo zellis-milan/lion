@@ -82,7 +82,7 @@ export const overlayShadowDomStyle = css`
     width: 100%;
     height: 100%;
     z-index: -1;
-    background-color: #333333;
+    background-color: transparent;
     display: none;
   }
 
@@ -128,8 +128,8 @@ export const overlayShadowDomStyle = css`
     padding: 0px;
   }
 
-  /** 
-   * We don't want to use pseudo el ::backdrop.  
+  /**
+   * We don't want to use pseudo el ::backdrop.
    * We have our own, that creates more flexibility wrt scrolling etc.
    */
   dialog[data-overlay-outer-wrapper]::backdrop {

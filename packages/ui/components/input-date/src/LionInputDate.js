@@ -13,6 +13,7 @@ export class LionInputDate extends LocalizeMixin(LionInput) {
   static get properties() {
     return {
       modelValue: Date,
+      formatOptions: Object,
     };
   }
 

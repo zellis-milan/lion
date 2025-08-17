@@ -26,4 +26,16 @@ export default [
     commonjs(),
   ],
 },
+ {
+  input: 'packages/ui/exports/localize.js',
+  output: {
+    file: 'dist/lion-datepicker-localize.js',
+    format: 'esm',
+    inlineDynamicImports: true,
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+  ],
+},
 ];
