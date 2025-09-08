@@ -43,6 +43,7 @@ export class LionInputDatepicker extends ScopedElementsMixin(
           font-weight: 400;
           font-style: normal;
           font-variation-settings: 'wdth' 100;
+          font-size: 14px;
         }
 
         .calendar__overlay-frame {
